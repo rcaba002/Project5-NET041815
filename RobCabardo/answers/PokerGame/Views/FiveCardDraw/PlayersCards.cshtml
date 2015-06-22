@@ -1,0 +1,45 @@
+﻿@model PokerGame.Models.FiveCardDraw.PlayersCardsViewModel
+
+@{
+    ViewBag.Title = "Claim Poker";
+}
+
+<h2>Claim Poker</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h4>Your Cards</h4>
+        <hr />
+        @foreach (var item in Model.PlayersHand)
+        {
+            <table>
+                @Html.DisplayFor(modelItem => item.MyValue)
+                @Html.DisplayFor(modelItem => item.MySuit)
+            </table>
+        }
+
+        <div style="font-weight: bold">
+            You have
+            @Html.DisplayFor(modelItem => Model.PlayerHas)
+            @Html.DisplayFor(modelItem => Model.PlayerHigh)
+
+        </div>
+        <div class="form-group">
+            <input type="button" title="Check" value="Check/Call"
+                   onclick="location.href = '@Url.Action("AllCards", "FiveCardDraw")'"/>
+        </div>
+        <div class="form-group">
+            <input type="button" title="Bet" value="Bet"
+                   onclick="location.href='@Url.Action("AllCards", "FiveCardDraw")'" />
+        </div>
+        <div class="form-group">
+            <input type="button" title="Fold" value="Fold"
+                   onclick="location.href = '@Url.Action("AllCards", "FiveCardDraw")'"/>
+        </div>
+    </div>
+}

@@ -1,0 +1,75 @@
+﻿@using System.Diagnostics
+@model PokerGame.Models.FiveCardDraw.AllCardsViewModel
+
+@{
+    ViewBag.Title = "Claim Poker";
+}
+
+<h2>Claim Poker</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table>
+            <tr>
+                <th style="padding-right: 107px">Your Cards</th>
+                @for (int i = 1; i <= Model.Count; i++)
+                {
+                    <th style="padding-right: 105px">Computer @i's Cards</th>
+                }
+            </tr>
+            <tr>
+                <td>
+                    @foreach (var item in Model.PlayersHand)
+                    {
+                        <div>
+                            @Html.DisplayFor(modelItem => item.MyValue)
+                            @Html.DisplayFor(modelItem => item.MySuit)
+                        </div>
+                    }
+                </td>
+                @foreach (var comp in Model.AllsortedCompHands)
+                {
+                    <td>
+                        @foreach (var card in comp)
+                        {
+                            <div>
+                                @Html.DisplayFor(modelItem => card.MyValue)
+                                @Html.DisplayFor(modelItem => card.MySuit)
+                            </div>
+                        }
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td>
+                    <div style="font-weight: bold">
+                        You have
+                        @Html.DisplayFor(modelItem => Model.PlayerHas)
+                        @Html.DisplayFor(modelItem => Model.PlayerHigh)
+                    </div>
+                </td>
+                @foreach (var x in Model.CompHasList)
+                {
+                    <td style="font-weight: bold">
+                        Computer has
+                        @Html.DisplayFor(modelItem => x.Item1)
+                        @Html.DisplayFor(modelItem => x.Item2)
+                    </td>
+                }
+            </tr>
+        </table>
+        <div style="font-weight: bold; font-size: 22px; margin-top: 20px">
+                The winner is @Html.DisplayFor(modelItem => Model.Wins)!
+        </div>
+
+        <div class="form-group">
+            <input type="button" title="Check" value="Play Again"
+                   onclick="location.href='@Url.Action("PlayersCards", "FiveCardDraw")'" />
+        </div>
+    </div>
+}
